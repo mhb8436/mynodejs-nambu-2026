@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "nodemon 03-board-api.js"
+    "dev" :"nodemon app.js"
   },
   "dependencies": {
     "express": "^5.2.1",
