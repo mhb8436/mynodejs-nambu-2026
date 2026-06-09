@@ -49,12 +49,13 @@ app.put("/posts/:id", (req, res)=>{
         return res.status(404).json({message: "게시글을 찾을 수가 없습니다."})
     }
     const {title, content, author} = req.body;
+    // console.log(title, content, author)
     if(title !== undefined) post.title = title;
     if(content !== undefined) post.content = content;
     if(author !== undefined) post.author = author;
 
     db.prepare("update posts set title = ? , content = ?, author = ? where id = ?")
-        .run(title, content, author, req.params.id);
+        .run(post.title, post.content, post.author, req.params.id);
 
     res.json(db.prepare("select * from posts where id = ? ").get(req.params.id))
 });
