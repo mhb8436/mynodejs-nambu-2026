@@ -33,3 +33,7 @@ DATABASE_URL="postgresql://<사용자계정>:<비밀번호>@localhost:5432/shop?
 ## 터미털 bash 
 npx prisma migrate dev --name init 
 npx prisma generate
+
+## prisma Service 
+nest g module prisma
+nest g service prisma --no-spec
