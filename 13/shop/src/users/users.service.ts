@@ -32,6 +32,10 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     await  this.findOne(id);
+    // const exists = await this.prisma.user.findUnique({
+    //   where : {email : updateUserDto.email}
+    // })
+    
     return this.prisma.user.update({where: {id}, data: updateUserDto})
 
   }

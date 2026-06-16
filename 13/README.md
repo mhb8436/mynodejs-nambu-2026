@@ -52,10 +52,32 @@ npx prisma generate
 nest g module prisma
 nest g service prisma --no-spec
 
-## main.ts 
+## 소스코딩
 
-## controller.ts
 
-## dto.ts
+# JWT 인증 추가 
 
-## service.ts  
+## 1. 관련 패키지 설치 
+```bash
+npm i @nestjs/jwt@11 @nestjs/passport@11 passport@0.7 passport-jwt@4 bcrypt@6
+npm i -D @types/passport-jwt@4 @types/bcrypt@6
+```
+
+## 2. .env JWT 시크릿추가 
+```env
+JWT_SECRET="dev-secret-change-me"
+```
+
+## 3. 관련 모듈 생성
+```bash
+nest g module auth
+nest g service auth --no-spec
+nest g controller auth --no-spec
+nest g guard auth/guards/jwt-auth --no-spec
+```
+## 4. schema 수정
+```bash
+npx prisma format 
+npx prisma migrate dev --name add-auth 
+npx prisma generate 
+```

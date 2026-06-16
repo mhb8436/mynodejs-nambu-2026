@@ -13,10 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  BUYER // 구매자 (기본)
+  SELLER // 판매자 
+  ADMIN // 관리자
+}
+
 model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
+  password  String    @default("pw1234") //bcrypt 암호활 예정 
   name      String
+  role      Role      @default(BUYER)
   products  Product[] // 이 사용자가 판매자로 등록한 상품들 (1 : N)
   createdAt DateTime  @default(now())
 }
