@@ -81,3 +81,15 @@ npx prisma format
 npx prisma migrate dev --name add-auth 
 npx prisma generate 
 ```
+
+## 5. UserService 에 
+5.1 createUser, findByEmail 추가 
+5.2 UserModule UserService exports 
+
+## 6. Auth 모듈
+```bash
+cd auth 
+mkdir dto
+cd dto
+create login.dto.ts
+create register.dto.ts
