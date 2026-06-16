@@ -93,3 +93,9 @@ mkdir dto
 cd dto
 create login.dto.ts
 create register.dto.ts
+
+vi src/auth/constants.ts
+
+auth.module.ts 에서 몇 가지 임포트 
+auth.service.ts
+```
