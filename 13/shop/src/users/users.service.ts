@@ -2,11 +2,12 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { RouterModule } from '@nestjs/core';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService){
-
   }
   async create(createUserDto: CreateUserDto) {
     const exists = await this.prisma.user.findUnique({
@@ -44,5 +45,15 @@ export class UsersService {
     await this.findOne(id);
     const deleted = this.prisma.user.delete({where: {id}})
     return {deleted: deleted}
+  }
+
+  // 회원가입 시 사용 목적 
+  async createUser(data: {email: string, name: string, password: string, role: Role}) {
+    return this.prisma.user.create({data});
+  }
+
+  // 로그인 시 사용 목적 
+  async findByEmail(email: string){
+    return this.prisma.user.findUnique({where: {email}})
   }
 }
