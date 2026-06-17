@@ -8,14 +8,14 @@ export class ProductsService {
   constructor(
     private readonly prisma: PrismaService
   ){}
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, sellerId: number) {
     return this.prisma.product.create({
       data: {
         name: createProductDto.name,
         description: createProductDto.description,
         price: createProductDto.price,
         stock: createProductDto.stock,
-        sellerId: createProductDto.sellerId,
+        sellerId: sellerId, // req.user.id 
         // M:N -> [1,2,3]
         // connect -> 새 프로덕트가 들어오면, product insert 새로하고, 기존
         // 기존 카테고리에 연결해줘(connect ) 라는 의미 

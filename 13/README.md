@@ -99,3 +99,17 @@ vi src/auth/constants.ts
 auth.module.ts 에서 몇 가지 임포트 
 auth.service.ts
 ```
+
+## Order 
+schema.prisma 수정 후. 
+
+```bash
+npx prisma format 
+npx prisma migrate dev --name add-order
+npx prisma generate 
+```
+## order 모듈 추가
+```bash
+nest g resource orders --no-spec
+nest g resource carts --no-spec
+```

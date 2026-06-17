@@ -19,14 +19,24 @@ enum Role {
   ADMIN // 관리자
 }
 
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DONE
+  CANCELLED
+}
+
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  password  String    @default("pw1234") //bcrypt 암호활 예정 
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String     @default("pw1234") //bcrypt 암호활 예정 
   name      String
-  role      Role      @default(BUYER)
+  role      Role       @default(BUYER)
   products  Product[] // 이 사용자가 판매자로 등록한 상품들 (1 : N)
-  createdAt DateTime  @default(now())
+  createdAt DateTime   @default(now())
+  cartItems CartItem[]
+  orders    Order[]
 }
 
 model Category {
@@ -36,13 +46,46 @@ model Category {
 }
 
 model Product {
-  id          Int        @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   description String
   price       Int
   stock       Int
-  seller      User       @relation(fields: [sellerId], references: [id]) //prisma FK 제공
+  seller      User        @relation(fields: [sellerId], references: [id]) //prisma FK 제공
   sellerId    Int //  진짜 외래키   
   categories  Category[] // M: N
-  createdAt   DateTime   @default(now())
+  createdAt   DateTime    @default(now())
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+}
+
+model CartItem {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int
+
+  @@unique([userId, productId])
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  buyerId    Int
+  buyer      User        @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  status     OrderStatus @default(PENDING)
+  totalPrice Int
+  items      OrderItem[]
+  createdAt  DateTime    @default(now())
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int
+  unitPrice Int
 }
