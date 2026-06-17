@@ -113,3 +113,27 @@ npx prisma generate
 nest g resource orders --no-spec
 nest g resource carts --no-spec
 ```
+
+POST /products/1/images
+Content-Type: multipart/form-data; boundary=----...
+------...
+Content-Disposition: form-data; name="image"; filename="photo.png"
+Content-Type: image/png
+(바이너리 데이터)
+------...
+
+POST /products/1/images
+-F image = sky.png
+
+
+1) JwtAuthGurd : 인증이 되어 있는지 체크 
+2) FileInterceptor (product.controller)
+    - image 필드 + imageUploadOptions multer 
+    2-1) 멀터 내부에서  multipart 파싱
+    -> fileFiler(_req, file, callbakc) 실행 
+    -> 유효한 파일(사이즈도 5메가 이내ㅡ 파일명도 정확하면
+    -> diskStorage upload/<uuid>.png
+3) addImage (product.controller.ts)
+    3-1) @UploadedFile file > multipart 파일 객체 
+4) product service addImage 
+     4-1) 제품정보 확인후에 ProductImage 저장 

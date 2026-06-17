@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors, ParseIntPipe, UploadedFile, UnsupportedMediaTypeException } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 import { type AuthUser, CurrentUser } from 'src/common/current-user.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { imageUploadOptions } from 'src/common/upload.config';
 
 @Controller('products')
 export class ProductsController {
@@ -20,6 +22,26 @@ export class ProductsController {
   ) {
     console.log(user)    
     return this.productsService.create(createProductDto, user.id);
+  }
+
+  @Post(":id/images")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiConsumes("multipart/form-data")
+  @ApiBody({
+    schema: {
+      type: "object", 
+      properties: {image: {type: "string", format: "binary"}}
+    }
+  })
+  @UseInterceptors(FileInterceptor("image", imageUploadOptions))
+  addImage(
+    @Param("id", ParseIntPipe) id: number, 
+    @UploadedFile() file: Express.Multer.File,
+    @CurrentUser() user: AuthUser
+  ) {
+    if (!file) throw new UnsupportedMediaTypeException(`올릴 이미지가 없어요`)
+    return this.productsService.addImage(id, user, file)
   }
 
   @Get()

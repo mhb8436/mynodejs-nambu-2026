@@ -9,6 +9,9 @@ export class CartsService {
     private readonly prisma: PrismaService
   ){}
 
+  // 장바구니에 아이템 담기 
+  // 같은 상품을 답으면 새 로운 로우를 추가하지 않고 수량만 업데이트 1) 
+  // 상품이 없으면 새로운 로우를 추가한다.  
   async create(createCartDto: CreateCartDto, userId: number) {
     const product = await this.prisma.product.findUnique({
       where : {id: createCartDto.productId}
