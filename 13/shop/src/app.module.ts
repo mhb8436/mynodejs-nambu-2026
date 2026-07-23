@@ -16,10 +16,10 @@ import { AzureModule } from './azure/azure.module';
 @Module({
   imports: [CategoriesModule, ProductsModule, UsersModule, PrismaModule, AuthModule, OrdersModule, CartsModule,
     // 업로드한 이미지를 그대로 내여주는 주는 모듈 uploads/ -> /uploads 
-    ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), UPLOAD_DIR), // .../shop/uploads 
-      serveRoot: "/uploads"
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(process.cwd(), UPLOAD_DIR), // .../shop/uploads 
+    //   serveRoot: "/uploads"
+    // }),
     AzureModule,
   ],
   controllers: [AppController],
