@@ -4,11 +4,13 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthUser } from 'src/common/current-user.decorator';
 import { UPLOAD_DIR } from 'src/common/upload.config';
+import { AzureBlobService } from 'src/azure/azure-blob/azure-blob.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly azureBlob: AzureBlobService,
   ){}
   async create(createProductDto: CreateProductDto, sellerId: number) {
     return this.prisma.product.create({
@@ -71,11 +73,14 @@ export class ProductsService {
       where : {id: productId},
       select: {id: true, sellerId: true}
     });
-    // npx prisma migrate dev --name add-product-iamge
-    // npx prisma generate
+    
+    const {blobName, url} = await this.azureBlob.uploadPublic (file, 'products');    
+    
     const image = await this.prisma.productImage.create({
-      data: {productId, storedName: file.filename}
+      // data: {productId, storedName: file.filename}
+      data: {productId, storedName: blobName}
     });
-    return {id: image.id, url: `${UPLOAD_DIR}/${image.storedName}`}
+    // return {id: image.id, url: `${UPLOAD_DIR}/${image.storedName}`}
+    return {id: image.id, url, blobName}
   }
 }
