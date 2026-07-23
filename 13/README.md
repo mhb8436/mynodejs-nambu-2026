@@ -1,3 +1,7 @@
+# 13장 — Prisma 관계형 쇼핑몰 + **로컬 파일 업로드** (`uploads/`)
+
+> Azure Blob(Public/Private + SAS)은 **14장**에서 다룹니다.
+
 ## 1. 프로젝트 생성
 ### 1.1 디렉토리 생성
 mkdir 13

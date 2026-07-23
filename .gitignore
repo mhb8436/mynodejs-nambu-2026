@@ -164,5 +164,7 @@ dist/
 # Office 임시 잠금 파일 (PowerPoint 등)
 ~$*
 
+# 14장 Azure Blob Storage (수업용 로컬 전용, 저장소 미포함)
+14/
 
 *.md

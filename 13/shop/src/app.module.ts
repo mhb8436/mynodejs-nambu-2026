@@ -11,6 +11,7 @@ import { CartsModule } from './carts/carts.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UPLOAD_DIR } from './common/upload.config';
+import { AzureModule } from './azure/azure.module';
 
 @Module({
   imports: [CategoriesModule, ProductsModule, UsersModule, PrismaModule, AuthModule, OrdersModule, CartsModule,
@@ -19,6 +20,7 @@ import { UPLOAD_DIR } from './common/upload.config';
       rootPath: join(process.cwd(), UPLOAD_DIR), // .../shop/uploads 
       serveRoot: "/uploads"
     }),
+    AzureModule,
   ],
   controllers: [AppController],
   providers: [AppService],

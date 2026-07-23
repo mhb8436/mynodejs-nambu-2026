@@ -31,5 +31,5 @@ export const imageUploadOptions = {
         }
         callback(null ,true)
     },
-    limit: {fileSize: MAX_FILE_SIZE},
-}
+    limits: { fileSize: MAX_FILE_SIZE },
+};

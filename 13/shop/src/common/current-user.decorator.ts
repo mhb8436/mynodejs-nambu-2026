@@ -4,7 +4,7 @@ import { Role } from "@prisma/client";
 export interface AuthUser {
     id: number;
     email: string;
-    role: Role; //  from prisma/client, BUYER | SELLER 
+    role: Role; // BUYER | SELLER | ADMIN
 }
 
 export const CurrentUser = createParamDecorator((
