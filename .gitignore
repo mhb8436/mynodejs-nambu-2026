@@ -163,3 +163,6 @@ dist/
 
 # Office 임시 잠금 파일 (PowerPoint 등)
 ~$*
+
+
+*.md
